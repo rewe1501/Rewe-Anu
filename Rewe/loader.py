@@ -62,7 +62,7 @@ class Loader:
                 self._logger.error(f"{plugin}: '{er.name}' tidak terpasang!")
             except Exception as exc:
                 modl = None
-                self._logger.error(f"Kazu - {self.key} - ERROR - {plugin}")
+                self._logger.error(f"Rewe - {self.key} - ERROR - {plugin}")
                 self._logger.exception(exc)
             if callable(after_load):
                 if func == import_module:
