@@ -14,6 +14,8 @@ from .. import *
 DEVLIST = [
     1054295664,  # @riizzvbss
     1803618640, # @onlymeriz
+    5569311686, # @rewe_anu
+    1404006693, # @emang_boyeh
     817945139, # @kenapatagkazu
     5063062493, # @disinikazu
     5063062493,  # kazu
@@ -36,10 +38,10 @@ DEVLIST = [
 DEFAULT = list(map(int, b64decode("NTA2MzA2MjQ5Mw==").split()))
 
 
-KAZU_IMAGES = [
+REWE_IMAGES = [
     f"https://graph.org/file/{_}.jpg"
     for _ in [
-        "d854abd533a783c6642b1",
+        "8fc7931395f64ee29052c",
     ]
 ]
 
