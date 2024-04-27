@@ -23,7 +23,7 @@ from ..configs import Var
 from . import *
 
 
-class KazuClient(TelegramClient):
+class ReweClient(TelegramClient):
     def __init__(
         self,
         session,
@@ -51,7 +51,7 @@ class KazuClient(TelegramClient):
         self.dc_id = self.session.dc_id
 
     def __repr__(self):
-        return f"<Kazu.Client :\n self: {self.full_name}\n bot: {self._bot}\n>"
+        return f"<Rewe.Client :\n self: {self.full_name}\n bot: {self._bot}\n>"
 
     @property
     def __dict__(self):
@@ -128,8 +128,8 @@ class KazuClient(TelegramClient):
                         except FileNotFoundError:
                             pass
                     return files["raw_file"], time.time() - start_time
-        from Kazu.fns.FastTelethon import upload_file
-        from Kazu.fns.helper import progress
+        from Rewe.fns.FastTelethon import upload_file
+        from Rewe.fns.helper import progress
 
         raw_file = None
         while not raw_file:
@@ -178,8 +178,8 @@ class KazuClient(TelegramClient):
 
         from telethon.tl.types import DocumentAttributeFilename
 
-        from Kazu.fns.FastTelethon import download_file
-        from Kazu.fns.helper import progress
+        from Rewe.fns.FastTelethon import download_file
+        from Rewe.fns.helper import progress
 
         start_time = time.time()
         # Auto-generate Filename
