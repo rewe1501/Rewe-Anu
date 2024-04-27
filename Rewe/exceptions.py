@@ -6,7 +6,7 @@
 # <https://www.github.com/senpai80/Ayra/blob/main/LICENSE/>.
 
 """
-Exceptions which can be raised by Kazu Ubot Itself.
+Exceptions which can be raised by Rewe Ubot Itself.
 """
 
 
