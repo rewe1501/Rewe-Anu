@@ -14,7 +14,7 @@ from logging import WARNING
 from random import choice, randrange, shuffle
 from traceback import format_exc
 
-from Kazu.exceptions import DependencyMissingError
+from Rewe.exceptions import DependencyMissingError
 
 try:
     from aiohttp import ContentTypeError
