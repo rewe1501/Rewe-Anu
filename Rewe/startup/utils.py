@@ -17,9 +17,9 @@ def load_addons(plugin_name):
         return
     from .. import HNDLR, LOGS, asst, udB, kazu_bot
     from .._misc import _supporter as xxx
-    from Kazu import fns
+    from Rewe import fns
     from .._misc._assistant import asst_cmd, callback, in_pattern
-    from .._misc._decorators import kazu_cmd
+    from .._misc._decorators import rewe_cmd
     from .._misc._supporter import Config, admin_cmd, sudo_cmd
     from .._misc._wrappers import eod, eor
     from ..configs import Var
@@ -32,14 +32,14 @@ def load_addons(plugin_name):
     mod.udB = udB
     mod.asst = asst
     mod.tgbot = asst
-    mod.kazu_bot = kazu_bot
-    mod.ub = kazu_bot
-    mod.bot = kazu_bot
-    mod.kazu = kazu_bot
-    mod.borg = kazu_bot
-    mod.telebot = kazu_bot
-    mod.jarvis = kazu_bot
-    mod.friday = kazu_bot
+    mod.kazu_bot = rewe_bot
+    mod.ub = rewe_bot
+    mod.bot = rewe_bot
+    mod.kazu = rewe_bot
+    mod.borg = rewe_bot
+    mod.telebot = rewe_bot
+    mod.jarvis = rewe_bot
+    mod.friday = rewe_bot
     mod.eod = eod
     mod.edit_delete = eod
     mod.LOGS = LOGS
@@ -53,8 +53,8 @@ def load_addons(plugin_name):
     mod.eor = eor
     mod.edit_or_reply = eor
     mod.asst_cmd = asst_cmd
-    mod.kazu_cmd = kazu_cmd
-    mod.on_cmd = kazu_cmd
+    mod.kazu_cmd = rewe_cmd
+    mod.on_cmd = rewe_cmd
     mod.callback = callback
     mod.Redis = udB.get_key
     mod.admin_cmd = admin_cmd
@@ -75,7 +75,7 @@ def load_addons(plugin_name):
     modules["fridaybot.utils"] = xxx
     modules["fridaybot.Config"] = xxx
     modules["userbot.uniborgConfig"] = xxx
-    modules["Kazu.functions"] = fns
+    modules["Rewe.functions"] = fns
     spec.loader.exec_module(mod)
     modules[name] = mod
     doc = modules[name].__doc__.format(i=HNDLR) if modules[name].__doc__ else ""
