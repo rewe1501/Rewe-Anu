@@ -14,10 +14,10 @@ from telethon.errors.rpcerrorlist import UserNotParticipantError
 from telethon.tl import functions, types
 
 try:
-    from .. import _kazu_cache
+    from .. import _rewe_cache
     from .._misc import SUDO_M
 except ImportError:
-    _kazu_cache = {}
+    _rewe_cache = {}
     SUDO_M = None
 
 
@@ -51,29 +51,29 @@ async def _callback_check(event):
         "Klik Tombol Di Bawah Ini untuk membuktikan diri sebagai Admin!",
         buttons=Button.inline("Klik Saya", f"cc_{id_}"),
     )
-    if not _kazu_cache.get("admin_callback"):
-        _kazu_cache.update({"admin_callback": {id_: None}})
+    if not _rewe_cache.get("admin_callback"):
+        _rewe_cache.update({"admin_callback": {id_: None}})
     else:
-        _kazu_cache["admin_callback"].update({id_: None})
-    while not _kazu_cache["admin_callback"].get(id_):
+        _rewe_cache["admin_callback"].update({id_: None})
+    while not _rewe_cache["admin_callback"].get(id_):
         await asyncio.sleep(1)
-    key = _kazu_cache.get("admin_callback", {}).get(id_)
+    key = _rewe_cache.get("admin_callback", {}).get(id_)
     del _kazu_cache["admin_callback"][id_]
     return key
 
 
 async def get_update_linked_chat(event):
-    if _kazu_cache.get("LINKED_CHATS") and _kazu_cache["LINKED_CHATS"].get(event.chat_id):
-        _ignore = _kazu_cache["LINKED_CHATS"][event.chat_id]["linked_chat"]
+    if _rewe_cache.get("LINKED_CHATS") and _rewe_cache["LINKED_CHATS"].get(event.chat_id):
+        _ignore = _rewe_cache["LINKED_CHATS"][event.chat_id]["linked_chat"]
     else:
         channel = await event.client(
             functions.channels.GetFullChannelRequest(event.chat_id)
         )
         _ignore = channel.full_chat.linked_chat_id
-        if _kazu_cache.get("LINKED_CHATS"):
-            _kazu_cache["LINKED_CHATS"].update({event.chat_id: {"linked_chat": _ignore}})
+        if _rewe_cache.get("LINKED_CHATS"):
+            _rewe_cache["LINKED_CHATS"].update({event.chat_id: {"linked_chat": _ignore}})
         else:
-            _kazu_cache.update(
+            _rewe_cache.update(
                 {"LINKED_CHATS": {event.chat_id: {"linked_chat": _ignore}}}
             )
     return _ignore
