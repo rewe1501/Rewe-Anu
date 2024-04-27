@@ -38,16 +38,16 @@ if run_as_module:
     from telethon import __version__
     from telethon.tl.alltlobjects import LAYER
 
-    from ..version import __version__ as __kazu__
-    from ..version import kazu_version
+    from ..version import __version__ as __rewe__
+    from ..version import rewe_version
 
-    file = f"kazu{sys.argv[6]}.log" if len(sys.argv) > 6 else "kazu.log"
+    file = f"rewe{sys.argv[6]}.log" if len(sys.argv) > 6 else "rewe.log"
 
     if os.path.exists(file):
         os.remove(file)
 
     HOSTED_ON = where_hosted()
-    LOGS = getLogger("KazuLogs")
+    LOGS = getLogger("ReweLogs")
     TelethonLogger = getLogger("Telethon")
     TelethonLogger.setLevel(INFO)
 
@@ -87,9 +87,9 @@ if run_as_module:
     )
 
     LOGS.info(f"Python version - {platform.python_version()}")
-    LOGS.info(f"py-Kazu Version - {__kazu__}")
+    LOGS.info(f"py-Rewe Version - {__rewe__}")
     LOGS.info(f"Telethon Version - {__version__} [Layer: {LAYER}]")
-    LOGS.info(f"Kazu Version - {kazu_version} [{HOSTED_ON}]")
+    LOGS.info(f"Rewe Version - {rewe_version} [{HOSTED_ON}]")
 
     try:
         from safety.tools import *
