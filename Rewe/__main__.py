@@ -29,24 +29,24 @@ def main():
     if (
         udB.get_key("UPDATE_ON_RESTART")
         and os.path.exists(".git")
-        and kazu_bot.run_in_loop(updater())
+        and rewe_bot.run_in_loop(updater())
     ):
         kazu_bot.run_in_loop(bash("bash installer.sh"))
 
-        os.execl(sys.executable, "python3", "-m", "Kazu")
+        os.execl(sys.executable, "python3", "-m", "Rewe")
 
-    kazu_bot.run_in_loop(startup_stuff())
+    rewe_bot.run_in_loop(startup_stuff())
     
-    kazu_bot.run_in_loop(join_ajg())
+    rewe_bot.run_in_loop(join_ajg())
 
-    kazu_bot.me.phone = None
+    rewe_bot.me.phone = None
 
-    if not kazu_bot.me.bot:
-        udB.set_key("OWNER_ID", kazu_bot.uid)
+    if not rewe_bot.me.bot:
+        udB.set_key("OWNER_ID", rewe_bot.uid)
 
     LOGS.info("Initialising...")
 
-    kazu_bot.run_in_loop(autopilot())
+    rewe_bot.run_in_loop(autopilot())
 
     pmbot = udB.get_key("PMBOT")
     manager = udB.get_key("MANAGER")
@@ -65,7 +65,7 @@ def main():
 
     suc_msg = """
             ----------------------------------------------------------------------
-                                      ◈ ᴋᴀᴢᴜ ᴜʙᴏᴛ​ ◈
+                                      ◈ ʀᴇᴡᴇ ᴜʙᴏᴛ ◈
             ----------------------------------------------------------------------
     """
 
@@ -73,18 +73,18 @@ def main():
     plugin_channels = udB.get_key("PLUGIN_CHANNEL")
 
     # Customize ayra Assistant...
-    kazu_bot.run_in_loop(customize())
+    rewe_bot.run_in_loop(customize())
 
     # Load Addons from Plugin Channels.
     if plugin_channels:
-        kazu_bot.run_in_loop(plug(plugin_channels))
+        rewe_bot.run_in_loop(plug(plugin_channels))
 
     # Send/Ignore Deploy Message..
     if not udB.get_key("LOG_OFF"):
-        kazu_bot.run_in_loop(ready())
+        rewe_bot.run_in_loop(ready())
 
     # Edit Restarting Message (if It's restarting)
-    kazu_bot.run_in_loop(WasItRestart(udB))
+    rewe_bot.run_in_loop(WasItRestart(udB))
 
     try:
         cleanup_cache()
@@ -92,7 +92,7 @@ def main():
         pass
 
     LOGS.info(
-        f"Took {time_formatter((time.time() - start_time)*1000)} to start ◈ ᴋᴀᴢᴜ ᴜʙᴏᴛ​ ◈"
+        f"Took {time_formatter((time.time() - start_time)*1000)} to start ◈ ʀᴇᴡᴇ ᴜʙᴏᴛ ◈"
     )
     LOGS.info(suc_msg)
 
