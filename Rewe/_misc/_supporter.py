@@ -12,20 +12,20 @@ from base64 import b64decode
 
 from telethon import events, types
 
-from Kazu._misc._decorators import compile_pattern, kazu_cmd
-from Kazu._misc._wrappers import eod, eor
+from Rewe._misc._decorators import compile_pattern, rewe_cmd
+from Rewe._misc._wrappers import eod, eor
 
 from .. import *
 from ..dB._core import LIST
 from ..dB import DEVLIST, DEFAULT
 from . import CMD_HELP, SUDO_M  # ignore: pylint
 
-ALIVE_NAME = kazu_bot.me.first_name
+ALIVE_NAME = rewe_bot.me.first_name
 BOTLOG_CHATID = BOTLOG = udB.get_key("LOG_CHANNEL")
 
 
-bot = borg = catub = friday = kazu_bot
-catub.cat_cmd = kazu_cmd
+bot = borg = catub = friday = rewe_bot
+catub.cat_cmd = rewe_cmd
 
 black_list_chats = udB.get_key("BLACKLIST_CHATS")
 
@@ -47,8 +47,8 @@ def admin_cmd(pattern=None, command=None, **args):
 
 
 friday_on_cmd = admin_cmd
-command = kazu_cmd
-register = kazu_cmd
+command = rewe_cmd
+register = rewe_cmd
 
 
 def sudo_cmd(allow_sudo=True, pattern=None, command=None, **args):
