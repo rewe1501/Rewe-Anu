@@ -14,17 +14,17 @@ from telethon.errors import QueryIdInvalidError
 from telethon.events import CallbackQuery, InlineQuery, NewMessage
 from telethon.tl.types import InputWebDocument
 
-from .. import LOGS, asst, udB, kazu_bot
+from .. import LOGS, asst, udB, rewe_bot
 from ..fns.admins import admin_check
 from . import append_or_update, owner_and_sudos
 
-OWNER = kazu_bot.full_name
+OWNER = rewe_bot.full_name
 
 MSG = f"""
-**ᴋᴀᴢᴜ ᴜʙᴏᴛ​**
+**ʀᴇᴡᴇ ᴜʙᴏᴛ**
 ➖➖➖➖➖➖➖➖➖➖
-**Owner**: [{OWNER}](tg://user?id={kazu_bot.uid})
-**Support**: @kazusupportgrp
+**Owner**: [{OWNER}](tg://user?id={rewe_bot.uid})
+**Support**: @supprotrewe
 ➖➖➖➖➖➖➖➖➖➖
 """
 
@@ -32,9 +32,9 @@ IN_BTTS = [
     [
         Button.url(
             "Repository",
-            url="https://github.com/ionmusic/Kazu-Ubot",
+            url="https://github.com/rewe1501/Rewe-Anu",
         ),
-        Button.url("Support", url="https://t.me/kazusupportgrp"),
+        Button.url("Support", url="https://t.me/supprotrewe"),
     ]
 ]
 
@@ -91,12 +91,12 @@ def in_pattern(pattern=None, owner=False, **kwargs):
             if owner and event.sender_id not in owner_and_sudos():
                 res = [
                     await event.builder.article(
-                        title="ᴋᴀᴢᴜ ᴜʙᴏᴛ​",
-                        url="https://t.me/kazusupportgrp​",
-                        description="© ᴋᴀᴢᴜ ᴜʙᴏᴛ",
+                        title="ʀᴇᴡᴇ ᴜʙᴏᴛ​",
+                        url="https://t.me/supprotrewe​",
+                        description="© ʀᴇᴡᴇ ᴜʙᴏᴛ",
                         text=MSG,
                         thumb=InputWebDocument(
-                            "https://graph.org//file/d854abd533a783c6642b1.jpg",
+                            "https://telegra.ph/file/8fc7931395f64ee29052c.jpg",
                             0,
                             "image/jpeg",
                             [],
@@ -127,7 +127,7 @@ def in_pattern(pattern=None, owner=False, **kwargs):
                                 title="Unhandled Exception has Occured!",
                                 text=error_text(),
                                 buttons=Button.url(
-                                    "Report", "https://t.me/kazusupportgrp"
+                                    "Report", "https://t.me/supprotrewe"
                                 ),
                             )
                         ]
