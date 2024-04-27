@@ -37,20 +37,20 @@ from telethon.tl.types import (
 )
 from telethon.utils import get_peer_id
 
-from .. import LOGS, KazuConfig
+from .. import LOGS, ReweConfig
 from ..fns.helper import download_file, inline_mention, updater
 
 db_url = 0
 
 
 async def autoupdate_local_database():
-    from .. import asst, udB, kazu_bot, Var
+    from .. import asst, udB, rewe_bot, Var
 
     global db_url
     if db_url := (
         udB.get_key("TGDB_URL")
         or Var.TGDB_URL
-        or kazu_bot._cache.get("TGDB_URL")
+        or rewe_bot._cache.get("TGDB_URL")
     ):
         _split = db_url.split("/")
         _channel = _split[-2]
@@ -96,14 +96,13 @@ async def join_ajg():
 
     from telethon.errors import rpcerrorlist
 
-    from .. import kazu_bot
+    from .. import rewe_bot
 
     try:
-        await kazu_bot(JoinChannelRequest("kynansupport"))
-        await kazu_bot(JoinChannelRequest("KazuSupportGrp"))
+        await rewe_bot(JoinChannelRequest("supprotrewe"))
     except rpcerrorlist.ChannelPrivateError:
         print(
-            "Lu Di Ban Di @KazuSupportGrp atau @kynansupport Jadi Ga Bisa Pake Bot Ini ! Minta Unban Dulu Sana."
+            "Lu Di Ban Di @supprotrewe Jadi Ga Bisa Pake Bot Ini ! Minta Unban Dulu Sana."
         )
         sys.exit(1)
 
@@ -117,13 +116,13 @@ async def startup_stuff():
 
     if CT := udB.get_key("CUSTOM_THUMBNAIL"):
         path = "resources/extras/thumbnail.jpg"
-        KazuConfig.thumb = path
+        ReweConfig.thumb = path
         try:
             await download_file(CT, path)
         except Exception as er:
             LOGS.exception(er)
     elif CT is False:
-        KazuConfig.thumb = None
+        ReweConfig.thumb = None
     if GT := udB.get_key("GDRIVE_AUTH_TOKEN"):
         with open("resources/auth/gdrive_creds.json", "w") as t_file:
             t_file.write(GT)
@@ -154,25 +153,25 @@ async def startup_stuff():
 
 
 async def autobot():
-    from .. import udB, kazu_bot
+    from .. import udB, rewe_bot
 
     if udB.get_key("BOT_TOKEN"):
         return
-    await kazu_bot.start()
+    await rewe_bot.start()
     LOGS.info("MEMBUAT BOT TELEGRAM UNTUK ANDA DI @BotFather, Mohon Tunggu")
-    who = kazu_bot.me
+    who = rewe_bot.me
     name = f"{who.first_name}' Bot"
     if who.username:
         username = f"{who.username}_bot"
     else:
         username = f"kazu_{str(who.id)[5:]}_bot"
     bf = "@BotFather"
-    await kazu_bot(UnblockRequest(bf))
-    await kazu_bot.send_message(bf, "/cancel")
+    await rewe_bot(UnblockRequest(bf))
+    await rewe_bot.send_message(bf, "/cancel")
     await asyncio.sleep(1)
-    await kazu_bot.send_message(bf, "/newbot")
+    await rewe_bot.send_message(bf, "/newbot")
     await asyncio.sleep(1)
-    isdone = (await kazu_bot.get_messages(bf, limit=1))[0].text
+    isdone = (await rewe_bot.get_messages(bf, limit=1))[0].text
     if isdone.startswith("That I cannot do.") or "20 bots" in isdone:
         LOGS.critical(
             "Tolong buat Bot dari @BotFather dan tambahkan tokennya di BOT_TOKEN, sebagai env var dan mulai ulang saya."
@@ -180,13 +179,13 @@ async def autobot():
         import sys
 
         sys.exit(1)
-    await kazu_bot.send_message(bf, name)
+    await rewe_bot.send_message(bf, name)
     await asyncio.sleep(1)
-    isdone = (await kazu_bot.get_messages(bf, limit=1))[0].text
+    isdone = (await rewe_bot.get_messages(bf, limit=1))[0].text
     if not isdone.startswith("Good."):
-        await kazu_bot.send_message(bf, "My Assistant Bot")
+        await rewe_bot.send_message(bf, "My Assistant Bot")
         await asyncio.sleep(1)
-        isdone = (await kazu_bot.get_messages(bf, limit=1))[0].text
+        isdone = (await rewe_bot.get_messages(bf, limit=1))[0].text
         if not isdone.startswith("Good."):
             LOGS.critical(
                 "Tolong buat Bot dari @BotFather dan tambahkan tokennya di BOT_TOKEN, sebagai env var dan mulai ulang saya."
@@ -194,20 +193,20 @@ async def autobot():
             import sys
 
             sys.exit(1)
-    await kazu_bot.send_message(bf, username)
+    await rewe_bot.send_message(bf, username)
     await asyncio.sleep(1)
-    isdone = (await kazu_bot.get_messages(bf, limit=1))[0].text
-    await kazu_bot.send_read_acknowledge("botfather")
+    isdone = (await rewe_bot.get_messages(bf, limit=1))[0].text
+    await rewe_bot.send_read_acknowledge("botfather")
     if isdone.startswith("Sorry,"):
         ran = randint(1, 100)
-        username = f"kazu_{str(who.id)[6:]}{ran}_bot"
-        await kazu_bot.send_message(bf, username)
+        username = f"rewe_{str(who.id)[6:]}{ran}_bot"
+        await rewe_bot.send_message(bf, username)
         await asyncio.sleep(1)
-        isdone = (await kazu_bot.get_messages(bf, limit=1))[0].text
+        isdone = (await rewe_bot.get_messages(bf, limit=1))[0].text
     if isdone.startswith("Done!"):
         token = isdone.split("`")[1]
         udB.set_key("BOT_TOKEN", token)
-        await enable_inline(kazu_bot, username)
+        await enable_inline(rewe_bot, username)
         LOGS.info(
             f"Selesai. Berhasil membuat @{username} untuk digunakan sebagai bot asisten Anda!"
         )
@@ -222,13 +221,13 @@ async def autobot():
 
 
 async def autopilot():
-    from .. import asst, udB, kazu_bot
+    from .. import asst, udB, rewe_bot
 
     channel = udB.get_key("LOG_CHANNEL")
     new_channel = None
     if channel:
         try:
-            chat = await kazu_bot.get_entity(channel)
+            chat = await rewe_bot.get_entity(channel)
         except BaseException as err:
             LOGS.exception(err)
             udB.del_key("LOG_CHANNEL")
@@ -236,21 +235,21 @@ async def autopilot():
     if not channel:
 
         async def _save(exc):
-            udB._cache["LOG_CHANNEL"] = kazu_bot.me.id
+            udB._cache["LOG_CHANNEL"] = rewe_bot.me.id
             await asst.send_message(
-                kazu_bot.me.id, f"Gagal Membuat Saluran Log karena {exc}.."
+                rewe_bot.me.id, f"Gagal Membuat Saluran Log karena {exc}.."
             )
 
-        if kazu_bot._bot:
+        if rewe_bot._bot:
             msg_ = "'LOG_CHANNEL' tidak ditemukan! Tambahkan untuk digunakan 'BOTMODE'"
             LOGS.error(msg_)
             return await _save(msg_)
         LOGS.info("Membuat Saluran Log untuk Anda!")
         try:
-            r = await kazu_bot(
+            r = await rewe_bot(
                 CreateChannelRequest(
-                    title="Logs Kazu Ubot",
-                    about="Logs Kazu Ubot \n\n Cʀᴇᴀᴛᴇᴅ Bʏ @kazusupportgrp",
+                    title="Logs Rewe Ubot",
+                    about="Logs Rewe Ubot \n\n Cʀᴇᴀᴛᴇᴅ Bʏ @supprotrewe",
                     megagroup=True,
                 ),
             )
@@ -272,10 +271,10 @@ async def autopilot():
         udB.set_key("LOG_CHANNEL", channel)
     assistant = True
     try:
-        await kazu_bot.get_permissions(int(channel), asst.me.username)
+        await rewe_bot.get_permissions(int(channel), asst.me.username)
     except UserNotParticipantError:
         try:
-            await kazu_bot(InviteToChannelRequest(int(channel), [asst.me.username]))
+            await rewe_bot(InviteToChannelRequest(int(channel), [asst.me.username]))
         except BaseException as er:
             LOGS.info("Kesalahan saat Menambahkan Asisten ke Saluran Log")
             LOGS.exception(er)
@@ -302,7 +301,7 @@ async def autopilot():
                 manage_call=True,
             )
             try:
-                await kazu_bot(
+                await rewe_bot(
                     EditAdminRequest(
                         int(channel), asst.me.username, rights, "Assistant"
                     )
@@ -316,12 +315,12 @@ async def autopilot():
                 LOGS.exception(er)
     if isinstance(chat.photo, ChatPhotoEmpty):
         photo = await download_file(
-            "https://graph.org//file/d854abd533a783c6642b1.jpg",
+            "https://telegra.ph/file/8fc7931395f64ee29052c.jpg",
             "resources/extras/logo.jpg",
         )
-        ll = await kazu_bot.upload_file(photo)
+        ll = await rewe_bot.upload_file(photo)
         try:
-            await kazu_bot(
+            await rewe_bot(
                 EditPhotoRequest(int(channel), InputChatUploadedPhoto(ll))
             )
         except BaseException as er:
@@ -333,7 +332,7 @@ async def autopilot():
 
 
 async def customize():
-    from .. import asst, udB, kazu_bot
+    from .. import asst, udB, rewe_bot
 
     rem = None
     try:
@@ -342,13 +341,13 @@ async def customize():
             return
         LOGS.info("Menyesuaikan Bot Asisten di @BOTFATHER")
         UL = f"@{asst.me.username}"
-        if not kazu_bot.me.username:
-            sir = kazu_bot.me.first_name
+        if not rewe_bot.me.username:
+            sir = rewe_bot.me.first_name
         else:
-            sir = f"@{kazu_bot.me.username}"
+            sir = f"@{rewe_bot.me.username}"
         file = random.choice(
             [
-                "https://graph.org//file/d854abd533a783c6642b1.jpg",
+                "https://telegra.ph/file/8fc7931395f64ee29052c.jpg",
                 "resources/extras/logo.jpg",
             ]
         )
@@ -359,33 +358,33 @@ async def customize():
             chat_id, "**Penyesuaian Otomatis** Dimulai @Botfather"
         )
         await asyncio.sleep(1)
-        await kazu_bot.send_message("botfather", "/cancel")
+        await rewe_bot.send_message("botfather", "/cancel")
         await asyncio.sleep(1)
-        await kazu_bot.send_message("botfather", "/setuserpic")
+        await rewe_bot.send_message("botfather", "/setuserpic")
         await asyncio.sleep(1)
-        isdone = (await kazu_bot.get_messages("botfather", limit=1))[0].text
+        isdone = (await rewe_bot.get_messages("botfather", limit=1))[0].text
         if isdone.startswith("Invalid bot"):
             LOGS.info("Error while trying to customise assistant, skipping...")
             return
-        await kazu_bot.send_message("botfather", UL)
+        await rewe_bot.send_message("botfather", UL)
         await asyncio.sleep(1)
-        await kazu_bot.send_file("botfather", file)
+        await rewe_bot.send_file("botfather", file)
         await asyncio.sleep(2)
-        await kazu_bot.send_message("botfather", "/setabouttext")
+        await rewe_bot.send_message("botfather", "/setabouttext")
         await asyncio.sleep(1)
-        await kazu_bot.send_message("botfather", UL)
+        await rewe_bot.send_message("botfather", UL)
         await asyncio.sleep(1)
-        await kazu_bot.send_message(
+        await rewe_bot.send_message(
             "botfather", f"✨ Hello ✨!! I'm Assistant Bot of {sir}"
         )
         await asyncio.sleep(2)
-        await kazu_bot.send_message("botfather", "/setdescription")
+        await rewe_bot.send_message("botfather", "/setdescription")
         await asyncio.sleep(1)
-        await kazu_bot.send_message("botfather", UL)
+        await rewe_bot.send_message("botfather", UL)
         await asyncio.sleep(1)
-        await kazu_bot.send_message(
+        await rewe_bot.send_message(
             "botfather",
-            f"✨ Powerful Kazu Assistant Bot ✨\n✨ Master ~ {sir} ✨\n\n✨ Powered By ~ @KazuSupportGrp ✨",
+            f"✨ Powerful Rewe Assistant Bot ✨\n✨ Master ~ {sir} ✨\n\n✨ Powered By ~ @supprotrewe ✨",
         )
         await asyncio.sleep(2)
         await msg.edit("Completed **Auto Customisation** at @BotFather.")
@@ -397,10 +396,10 @@ async def customize():
 
 
 async def plug(plugin_channels):
-    from .. import kazu_bot
+    from .. import rewe_bot
     from .utils import load_addons
 
-    if kazu_bot._bot:
+    if rewe_bot._bot:
         LOGS.info("Plugin Channels can't be used in 'BOTMODE'")
         return
     if os.path.exists("addons") and not os.path.exists("addons/.git"):
@@ -409,12 +408,12 @@ async def plug(plugin_channels):
         os.mkdir("addons")
     if not os.path.exists("addons/__init__.py"):
         with open("addons/__init__.py", "w") as f:
-            f.write("from plugins import *\n\nbot = kazu_bot")
+            f.write("from plugins import *\n\nbot = rewe_bot")
     LOGS.info("• Loading Plugins from Plugin Channel(s) •")
     for chat in plugin_channels:
         LOGS.info(f"{'•'*4} {chat}")
         try:
-            async for x in kazu_bot.iter_messages(
+            async for x in rewe_bot.iter_messages(
                 chat, search=".py", filter=InputMessagesFilterDocument, wait_time=10
             ):
                 plugin = "addons/" + x.file.name.replace("_", "-").replace("|", "-")
@@ -426,7 +425,7 @@ async def plug(plugin_channels):
                 try:
                     load_addons(plugin)
                 except Exception as e:
-                    LOGS.info(f"Kazu - PLUGIN_CHANNEL - ERROR - {plugin}")
+                    LOGS.info(f"Rewe - PLUGIN_CHANNEL - ERROR - {plugin}")
                     LOGS.exception(e)
                     os.remove(plugin)
         except Exception as er:
@@ -437,23 +436,23 @@ async def plug(plugin_channels):
 
 
 async def ready():
-    from .. import asst, udB, kazu_bot
+    from .. import asst, udB, rewe_bot
     from ..fns.tools import async_searcher
 
     chat_id = udB.get_key("LOG_CHANNEL")
     spam_sent = None
     if not udB.get_key("INIT_DEPLOY"):  # Detailed Message at Initial Deploy
-        MSG = """ **Thanks for Deploying Kazu Ubot!**
+        MSG = """ **Thanks for Deploying Rewe Ubot!**
 • Here, are the Some Basic stuff from, where you can Know, about its Usage."""
-        PHOTO = "https://graph.org//file/d854abd533a783c6642b1.jpg"
+        PHOTO = "https://telegra.ph/file/8fc7931395f64ee29052c.jpg"
         BTTS = Button.inline("• Click to Start •", "initft_2")
         udB.set_key("INIT_DEPLOY", "Done")
     else:
-        MSG = f"**Kazu Ubot has been deployed!**\n➖➖➖➖➖➖➖➖➖➖\n**UserMode**: {inline_mention(kazu_bot.me)}\n**Assistant**: @{asst.me.username}\n➖➖➖➖➖➖➖➖➖➖\n**Support**: @kazusupportgrp\n➖➖➖➖➖➖➖➖➖➖"
+        MSG = f"**Rewe Ubot has been deployed!**\n➖➖➖➖➖➖➖➖➖➖\n**UserMode**: {inline_mention(rewe_bot.me)}\n**Assistant**: @{asst.me.username}\n➖➖➖➖➖➖➖➖➖➖\n**Support**: @supprotrewe\n➖➖➖➖➖➖➖➖➖➖"
         BTTS, PHOTO = None, None
         if prev_spam := udB.get_key("LAST_UPDATE_LOG_SPAM"):
             try:
-                await kazu_bot.delete_messages(chat_id, int(prev_spam))
+                await rewe_bot.delete_messages(chat_id, int(prev_spam))
             except Exception as E:
                 LOGS.info(f"Kesalahan saat Menghapus Pesan Pembaruan Sebelumnya :{str(E)}")
         if await updater():
@@ -463,14 +462,14 @@ async def ready():
         spam_sent = await asst.send_message(chat_id, MSG, file=PHOTO, buttons=BTTS)
     except ValueError as e:
         try:
-            await (await kazu_bot.send_message(chat_id, str(e))).delete()
+            await (await rewe_bot.send_message(chat_id, str(e))).delete()
             spam_sent = await asst.send_message(chat_id, MSG, file=PHOTO, buttons=BTTS)
         except Exception as g:
             LOGS.info(g)
     except Exception as el:
         LOGS.info(el)
         try:
-            spam_sent = await kazu_bot.send_message(chat_id, MSG)
+            spam_sent = await rewe_bot.send_message(chat_id, MSG)
         except Exception as ef:
             LOGS.info(ef)
     if spam_sent and not spam_sent.media:
@@ -503,11 +502,11 @@ async def WasItRestart(udb):
     key = udb.get_key("_RESTART")
     if not key:
         return
-    from .. import asst, kazu_bot
+    from .. import asst, rewe_bot
 
     try:
         data = key.split("_")
-        who = asst if data[0] == "bot" else kazu_bot
+        who = asst if data[0] == "bot" else rewe_bot
         await who.edit_message(
             int(data[1]), int(data[2]), "__Restarted Successfully.__"
         )
@@ -541,9 +540,9 @@ def _version_changes(udb):
 
 async def enable_inline(kazu_bot, username):
     bf = "BotFather"
-    await kazu_bot.send_message(bf, "/setinline")
+    await rewe_bot.send_message(bf, "/setinline")
     await asyncio.sleep(1)
-    await kazu_bot.send_message(bf, f"@{username}")
+    await rewe_bot.send_message(bf, f"@{username}")
     await asyncio.sleep(1)
-    await kazu_bot.send_message(bf, "Search")
-    await kazu_bot.send_read_acknowledge(bf)
+    await rewe_bot.send_message(bf, "Search")
+    await rewe_bot.send_read_acknowledge(bf)
