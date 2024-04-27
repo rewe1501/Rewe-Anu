@@ -10,7 +10,7 @@ Exceptions which can be raised by Rewe Ubot Itself.
 """
 
 
-class KazuError(Exception):
+class ReweError(Exception):
     ...
 
 
@@ -22,5 +22,5 @@ class DependencyMissingError(ImportError):
     ...
 
 
-class RunningAsFunctionLibError(KazuError):
+class RunningAsFunctionLibError(ReweError):
     ...
